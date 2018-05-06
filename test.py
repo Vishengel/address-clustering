@@ -1,5 +1,7 @@
 import googlemaps
+from data_parser import DataParser
 
+"""
 gmaps = googlemaps.Client(key='AIzaSyC543HM-TAYHQW25N6QQ81RbcFTwv6gyUY')
 
 # Geocoding an address
@@ -8,3 +10,7 @@ print(geocode_result[0]['geometry'])
 
 dist = gmaps.distance_matrix('Oostersingel 116c, 9711XH, Groningen', 'Oosterstraat 20, 9951EB, Groningen')
 print(dist)
+"""
+
+dp = DataParser()
+dp.open_file_path("C:/Users/Jelle/Documents/GitHub/address-clustering/testadressen.csv")
