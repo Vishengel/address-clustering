@@ -1,16 +1,13 @@
 import googlemaps
 from data_parser import DataParser
+from kmeans import KMeans
 
-"""
+
 gmaps = googlemaps.Client(key='AIzaSyC543HM-TAYHQW25N6QQ81RbcFTwv6gyUY')
 
-# Geocoding an address
-geocode_result = gmaps.geocode('Oostersingel 116c, 9711XH, Groningen')
-print(geocode_result[0]['geometry'])
-
-dist = gmaps.distance_matrix('Oostersingel 116c, 9711XH, Groningen', 'Oosterstraat 20, 9951EB, Groningen')
-print(dist)
-"""
-
-dp = DataParser()
+dp = DataParser(gmaps)
 dp.open_file_path("C:/Users/Jelle/Documents/GitHub/address-clustering/testadressen.csv")
+dp.name_address_from_csv()
+
+kmeans = KMeans()
+kmeans.do_kmeans(dp.address_list, 3)
