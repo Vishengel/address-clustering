@@ -2,7 +2,6 @@ import googlemaps
 from data_parser import DataParser
 from kmeans import KMeans
 
-
 gmaps = googlemaps.Client(key='AIzaSyC543HM-TAYHQW25N6QQ81RbcFTwv6gyUY')
 
 dp = DataParser(gmaps)
