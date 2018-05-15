@@ -1,1 +1,2 @@
 googlemaps==2.5.1
+numpy==1.14.3
