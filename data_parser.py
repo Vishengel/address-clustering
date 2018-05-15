@@ -40,4 +40,4 @@ class DataParser():
                 data = {"address": address, "coords": geocode_result[0]['geometry']['location']}
                 self.address_list[name] = data
 
-        print(self.address_list)
+        #print(self.address_list)

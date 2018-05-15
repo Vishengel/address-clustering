@@ -9,4 +9,11 @@ dp.open_file_path("C:/Users/Jelle/Documents/GitHub/address-clustering/testadress
 dp.name_address_from_csv()
 
 kmeans = KMeans()
-kmeans.do_kmeans(dp.address_list, 3)
+labeled_data, cluster_centers = kmeans.do_kmeans(dp.address_list, 3)
+
+print(labeled_data)
+
+for c in cluster_centers:
+    street_name = gmaps.reverse_geocode(c)[0]['address_components'][1]['long_name']
+    house_no = gmaps.reverse_geocode(c)[0]['address_components'][0]['long_name']
+    print(street_name + " " + house_no)

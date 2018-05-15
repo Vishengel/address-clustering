@@ -1,6 +1,7 @@
 import random
 import numpy as np
 import math
+import copy
 
 class KMeans():
 
@@ -37,6 +38,13 @@ class KMeans():
         return np.linalg.norm(na_coords - nb_coords)
 
     def find_closest_center(self, coords, centers):
+        """
+        Given a latitude and longitude, find the neares cluster center
+
+        :param coords: a dict containing a lat and lng value
+        :param centers: a list of the cluster centers
+        :return: the center closest to the given coordinates
+        """
         closest_distance = math.inf
         closest_center = -1
 
@@ -48,29 +56,54 @@ class KMeans():
 
         return closest_center
 
-    def check_same_centers(self, old_centers, new_centers):
-        return old_centers == new_centers
-
     def get_labels(self, data, centers):
-        # Placeholder function
+        """
+        Reassign each data point to the nearest cluster center
+
+        :param data: the data to be clustered as a dictionary
+        :param centers: a list of cluster centers
+        :return: the reassigned data
+        """
         for key in data:
             data[key]['label'] = self.find_closest_center(data[key]['coords'], centers)
-            print(data[key])
 
-    def get_centers(self, data, k):
-        # Placeholder function. Returns a single center with random latitude in (1, 100)
-        return [{'lat': random.randint(1, 100), 'lng': 30}]
+        return data
+
+    def get_new_centers(self, data, k):
+        """
+        Calculate the new cluster centers from the data points assigned to each cluster
+
+        :param data: the data with each data point assigned to one of the current klusters
+        :param k: the k amount of clusters
+        :return: a list containing the new cluster centers
+        """
+        new_centers = [{'lat': 0, 'lng': 0} for i in range(k)]
+        n_labels = [0] * k
+
+        for key in data:
+            new_centers[data[key]['label']]['lat'] += data[key]['coords']['lat']
+            new_centers[data[key]['label']]['lng'] += data[key]['coords']['lng']
+            n_labels[data[key]['label']] += 1
+
+        for c in new_centers:
+            c['lat'] /= n_labels[new_centers.index(c)]
+            c['lng'] /= n_labels[new_centers.index(c)]
+
+        #print(new_centers)
+        return new_centers
 
     def do_kmeans(self, data, k):
         centers = self.init_centers_rnd(data, k)
         old_centers = []
-        print(centers)
+        #print("Initial centers: ", centers)
 
-        while not self.check_same_centers(old_centers, centers):
-            old_centers = centers
+        while not old_centers == centers:
+            old_centers = copy.copy(centers)
 
-            self.get_labels(data, centers)
-            #centers = list(self.get_centers(data, k))
+            data = self.get_labels(data, centers)
+            centers = list(self.get_new_centers(data, k))
+
+        return data, centers
 
 
 
