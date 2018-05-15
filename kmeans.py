@@ -1,5 +1,6 @@
 import random
 import numpy as np
+import math
 
 class KMeans():
 
@@ -24,7 +25,8 @@ class KMeans():
         """
         Get the Euclidian distance between two addresses, based on latitude/longitude
 
-        :param node_a: first address node
+        :param node_a: first address node. A node is a dictionary with the keys 'lat' and 'lng',
+                       their values containing the latitude and longitude, respectively
         :param node_b: second address node
         :return: Euclidian distance between the nodes
         """
@@ -34,25 +36,41 @@ class KMeans():
 
         return np.linalg.norm(na_coords - nb_coords)
 
+    def find_closest_center(self, coords, centers):
+        closest_distance = math.inf
+        closest_center = -1
+
+        for c in centers:
+            dist = self.get_euclidian_dist(coords, c)
+            if dist < closest_distance:
+                closest_distance = dist
+                closest_center = centers.index(c)
+
+        return closest_center
+
     def check_same_centers(self, old_centers, new_centers):
         return old_centers == new_centers
 
     def get_labels(self, data, centers):
-        pass
+        # Placeholder function
+        for key in data:
+            data[key]['label'] = self.find_closest_center(data[key]['coords'], centers)
+            print(data[key])
 
     def get_centers(self, data, k):
-        # Placeholder function. Returns a single center with random latitude in (0, 100)
+        # Placeholder function. Returns a single center with random latitude in (1, 100)
         return [{'lat': random.randint(1, 100), 'lng': 30}]
 
     def do_kmeans(self, data, k):
         centers = self.init_centers_rnd(data, k)
         old_centers = []
+        print(centers)
 
         while not self.check_same_centers(old_centers, centers):
             old_centers = centers
 
             self.get_labels(data, centers)
-            centers = list(self.get_centers(data, k))
+            #centers = list(self.get_centers(data, k))
 
 
 
