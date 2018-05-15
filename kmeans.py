@@ -39,7 +39,7 @@ class KMeans():
 
     def find_closest_center(self, coords, centers):
         """
-        Given a latitude and longitude, find the neares cluster center
+        Given a latitude and longitude, find the nearest cluster center
 
         :param coords: a dict containing a lat and lng value
         :param centers: a list of the cluster centers
@@ -93,6 +93,13 @@ class KMeans():
         return new_centers
 
     def do_kmeans(self, data, k):
+        """
+        This function performs the k-means algorithm
+
+        :param data: the data to be clustered as a dictionary
+        :param k: the k amount of clusters to be made
+        :return: the clustered data and the coordinates of the cluster centers
+        """
         centers = self.init_centers_rnd(data, k)
         old_centers = []
         #print("Initial centers: ", centers)
